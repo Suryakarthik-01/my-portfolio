@@ -1,0 +1,146 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+
+const experiences = [
+  {
+    period: "2023 — Present",
+    role: "Full Stack Developer",
+    company: "Freelance & Open Source",
+    type: "Full-time",
+    description:
+      "Designed and built production-grade web and mobile applications for clients across industries. Led architecture decisions, implemented CI/CD pipelines, and delivered end-to-end solutions independently.",
+    stack: ["Next.js", "React Native", "Node.js", "MongoDB", "TypeScript"],
+  },
+  {
+    period: "2022 — 2023",
+    role: "Frontend Engineer",
+    company: "Startup Projects",
+    type: "Contract",
+    description:
+      "Spearheaded the frontend development of several SaaS products. Focused on performance optimization, accessibility, and creating reusable design systems that accelerated team velocity.",
+    stack: ["React", "TypeScript", "Tailwind CSS", "Zustand"],
+  },
+  {
+    period: "2021 — 2022",
+    role: "Mobile Developer",
+    company: "Personal Projects",
+    type: "Independent",
+    description:
+      "Built and shipped multiple React Native applications to the App Store and Play Store. Implemented complex state management, native modules, and push notification systems.",
+    stack: ["React Native CLI", "Expo", "Redux", "Firebase"],
+  },
+];
+
+export default function Experience() {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section
+      id="experience"
+      ref={ref}
+      className="relative py-32 md:py-40 bg-[#fafafa]"
+      aria-label="Experience"
+    >
+      <div className="relative max-w-[1400px] mx-auto px-8 md:px-16 lg:pr-64 xl:pr-80">
+        {/* Section header */}
+        <div className="flex items-center gap-4 mb-20">
+          <span className="section-label">02 — Experience</span>
+          <div className="flex-1 h-px bg-[#eaeaea]" />
+          <span className="code-comment">{"// career timeline"}</span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          {/* Left label */}
+          <motion.div
+            className="lg:col-span-3"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.7 }}
+          >
+            <h2 className="text-[clamp(36px,4vw,56px)] font-black leading-[0.95] tracking-tight text-[#111111]">
+              WHERE
+              <br />
+              <span className="text-outline">I&apos;VE</span>
+              <br />
+              WORKED
+            </h2>
+          </motion.div>
+
+          {/* Timeline */}
+          <div className="lg:col-span-9 relative">
+            {/* Vertical line */}
+            <div className="absolute left-0 top-3 bottom-0 w-px bg-[#eaeaea]" aria-hidden="true" />
+
+            <div className="flex flex-col gap-0">
+              {experiences.map((exp, i) => (
+                <motion.div
+                  key={exp.company}
+                  initial={{ opacity: 0, x: 24 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{
+                    duration: 0.7,
+                    ease: "easeOut",
+                    delay: 0.1 + i * 0.12,
+                  }}
+                  className="relative pl-10 pb-14 last:pb-0 group"
+                >
+                  {/* Timeline dot */}
+                  <div
+                    className="absolute left-[-4.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-[#111111] bg-white group-hover:bg-[#111111] transition-colors duration-200"
+                    aria-hidden="true"
+                  />
+
+                  {/* Content */}
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap items-baseline gap-3">
+                      <span className="font-mono text-xs text-[#999999] tracking-wide">
+                        {exp.period}
+                      </span>
+                      <span className="font-mono text-[10px] border border-[#eaeaea] px-2 py-0.5 text-[#666666] uppercase tracking-widest">
+                        {exp.type}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-xl font-semibold text-[#111111] tracking-tight">
+                        {exp.role}
+                      </h3>
+                      <p className="text-sm text-[#666666] mt-0.5">{exp.company}</p>
+                    </div>
+
+                    <p className="text-[#666666] text-sm leading-relaxed max-w-xl">
+                      {exp.description}
+                    </p>
+
+                    {/* Stack */}
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {exp.stack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="font-mono text-[10px] tracking-widest uppercase bg-white border border-[#eaeaea] px-2.5 py-1 text-[#666666]"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Decorative number */}
+        <div
+          className="absolute right-8 top-24 hidden text-[150px] font-black text-[#f0f0f0] leading-none select-none pointer-events-none lg:block xl:text-[200px]"
+          aria-hidden="true"
+        >
+          02
+        </div>
+      </div>
+    </section>
+  );
+}
