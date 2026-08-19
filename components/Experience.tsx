@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
 const experiences = [
   {
@@ -37,6 +37,13 @@ export default function Experience() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 75%", "end 60%"],
+  });
+  const lineProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
   return (
     <section
       id="experience"
@@ -60,7 +67,7 @@ export default function Experience() {
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.7 }}
           >
-            <h2 className="text-[clamp(36px,4vw,56px)] font-black leading-[0.95] tracking-tight text-[#111111]">
+            <h2 className="text-[clamp(38px,4.5vw,64px)] font-black leading-[0.95] tracking-tight text-[#111111]">
               WHERE
               <br />
               <span className="text-outline">I&apos;VE</span>
@@ -70,48 +77,59 @@ export default function Experience() {
           </motion.div>
 
           {/* Timeline */}
-          <div className="lg:col-span-9 relative">
+          <div ref={timelineRef} className="lg:col-span-9 relative">
             {/* Vertical line */}
             <div className="absolute left-0 top-3 bottom-0 w-px bg-[#eaeaea]" aria-hidden="true" />
+            {/* Scroll-filled progress line */}
+            <motion.div
+              className="absolute left-0 top-3 bottom-0 w-px bg-[#111111] origin-top"
+              style={{ scaleY: lineProgress }}
+              aria-hidden="true"
+            />
 
             <div className="flex flex-col gap-0">
               {experiences.map((exp, i) => (
                 <motion.div
                   key={exp.company}
-                  initial={{ opacity: 0, x: 24 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  initial={{ opacity: 0, y: 32 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-120px" }}
                   transition={{
                     duration: 0.7,
                     ease: "easeOut",
-                    delay: 0.1 + i * 0.12,
+                    delay: i * 0.08,
                   }}
-                  className="relative pl-10 pb-14 last:pb-0 group"
+                  className="relative pl-10 pb-16 last:pb-0 group"
                 >
                   {/* Timeline dot */}
-                  <div
-                    className="absolute left-[-4.5px] top-1.5 w-2.5 h-2.5 rounded-full border-2 border-[#111111] bg-white group-hover:bg-[#111111] transition-colors duration-200"
+                  <motion.div
+                    className="absolute left-[-4.5px] top-2 w-2.5 h-2.5 rounded-full border-2 border-[#111111] bg-white group-hover:bg-[#111111] transition-colors duration-200"
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true, margin: "-120px" }}
+                    transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.08 + 0.15 }}
                     aria-hidden="true"
                   />
 
                   {/* Content */}
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     <div className="flex flex-wrap items-baseline gap-3">
-                      <span className="font-mono text-xs text-[#999999] tracking-wide">
+                      <span className="font-mono text-sm text-[#999999] tracking-wide">
                         {exp.period}
                       </span>
-                      <span className="font-mono text-[10px] border border-[#eaeaea] px-2 py-0.5 text-[#666666] uppercase tracking-widest">
+                      <span className="font-mono text-xs border border-[#eaeaea] px-2 py-0.5 text-[#666666] uppercase tracking-widest">
                         {exp.type}
                       </span>
                     </div>
 
                     <div>
-                      <h3 className="text-xl font-semibold text-[#111111] tracking-tight">
+                      <h3 className="text-2xl font-semibold text-[#111111] tracking-tight">
                         {exp.role}
                       </h3>
-                      <p className="text-sm text-[#666666] mt-0.5">{exp.company}</p>
+                      <p className="text-base text-[#666666] mt-1">{exp.company}</p>
                     </div>
 
-                    <p className="text-[#666666] text-sm leading-relaxed max-w-xl">
+                    <p className="text-[#666666] text-base leading-relaxed max-w-2xl">
                       {exp.description}
                     </p>
 
@@ -120,7 +138,7 @@ export default function Experience() {
                       {exp.stack.map((tech) => (
                         <span
                           key={tech}
-                          className="font-mono text-[10px] tracking-widest uppercase bg-white border border-[#eaeaea] px-2.5 py-1 text-[#666666]"
+                          className="font-mono text-xs tracking-widest uppercase bg-white border border-[#eaeaea] px-2.5 py-1 text-[#666666]"
                         >
                           {tech}
                         </span>
@@ -135,10 +153,18 @@ export default function Experience() {
 
         {/* Decorative number */}
         <div
-          className="absolute right-8 top-24 hidden text-[150px] font-black text-[#f0f0f0] leading-none select-none pointer-events-none lg:block xl:text-[200px]"
+          className="absolute right-8 top-24 hidden select-none pointer-events-none lg:block"
           aria-hidden="true"
         >
-          02
+          <span
+            className="block text-[150px] font-black leading-none text-[#f0f0f0] xl:text-[200px]"
+            style={{
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 55%)",
+              maskImage: "linear-gradient(to right, transparent, black 55%)",
+            }}
+          >
+            02
+          </span>
         </div>
       </div>
     </section>

@@ -65,8 +65,11 @@ export default function About() {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
           >
             {/* Story */}
-            <div className="max-w-xl space-y-5 border-l border-[#eaeaea] pl-8">
-              <p className="text-[#111111] text-lg leading-relaxed">
+            <div
+              className="max-w-xl space-y-5 border-l border-[#eaeaea] pl-8"
+              style={{ fontFamily: "var(--font-manrope)" }}
+            >
+              <p className="text-[#111111] text-xl leading-[1.6] tracking-[-0.01em]">
                 A full-stack developer and mobile engineer with a deep obsession
                 for clean architecture and performant systems. I don&apos;t just
                 write code — I build experiences that users remember.
@@ -123,10 +126,18 @@ export default function About() {
 
         {/* Decorative large number */}
         <div
-          className="absolute right-8 top-24 hidden text-[150px] font-black text-[#f5f5f5] leading-none select-none pointer-events-none lg:block xl:text-[200px]"
+          className="absolute right-8 top-24 hidden select-none pointer-events-none lg:block"
           aria-hidden="true"
         >
-          01
+          <span
+            className="block text-[150px] font-black leading-none text-[#f0f0f0] xl:text-[200px]"
+            style={{
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 55%)",
+              maskImage: "linear-gradient(to right, transparent, black 55%)",
+            }}
+          >
+            01
+          </span>
         </div>
       </div>
     </section>

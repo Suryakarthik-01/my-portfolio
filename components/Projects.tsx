@@ -106,7 +106,7 @@ export default function Projects() {
       <div className="relative max-w-[1400px] mx-auto px-8 md:px-16 lg:pr-64 xl:pr-80">
         {/* Section header */}
         <div className="flex items-center gap-4 mb-20">
-          <span className="section-label">04 — Projects</span>
+          <span className="section-label">03 — Projects</span>
           <div className="flex-1 h-px bg-[#eaeaea]" />
           <span className="code-comment">{"projects.map(p => <CaseStudy />)"}</span>
         </div>
@@ -143,10 +143,18 @@ export default function Projects() {
 
         {/* Decorative number */}
         <div
-          className="absolute right-8 top-24 hidden text-[150px] font-black text-[#f0f0f0] leading-none select-none pointer-events-none lg:block xl:text-[200px]"
+          className="absolute right-8 top-24 hidden select-none pointer-events-none lg:block"
           aria-hidden="true"
         >
-          04
+          <span
+            className="block text-[150px] font-black leading-none text-[#f0f0f0] xl:text-[200px]"
+            style={{
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 55%)",
+              maskImage: "linear-gradient(to right, transparent, black 55%)",
+            }}
+          >
+            03
+          </span>
         </div>
       </div>
     </section>
