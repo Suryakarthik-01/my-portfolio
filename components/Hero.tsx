@@ -178,21 +178,37 @@ export default function Hero() {
         <div className="relative flex flex-col justify-center pl-2 sm:pl-4 lg:pl-10 xl:pl-16">
           {/* decorative sparkle rail */}
           <div className="pointer-events-none absolute -left-6 top-1/4 hidden flex-col items-center xl:flex">
-            <span className="h-16 w-px bg-neutral-300" />
+            <span className="h-16 w-px bg-gradient-to-b from-transparent via-neutral-300 to-transparent" />
             <Sparkles className="my-2 h-3.5 w-3.5 text-neutral-400" />
+            <span className="h-16 w-px bg-gradient-to-b from-neutral-300 via-transparent to-transparent" />
           </div>
 
-          <p className="flex items-center text-xs font-medium uppercase tracking-[0.35em] text-neutral-700">
-            {typedGreeting}
-            <span
-              className={`ml-1 inline-block h-3 w-[2px] bg-neutral-700 ${
-                typingDone ? "animate-blink" : "opacity-100"
-              }`}
-            />
-          </p>
+          {/* greeting badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50/80 py-1.5 pl-2 pr-4 shadow-sm backdrop-blur-sm"
+          >
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            </span>
+            <p className="flex items-center text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-700">
+              {typedGreeting}
+              <span
+                className={`ml-0.5 inline-block h-3 w-[2px] bg-neutral-700 ${
+                  typingDone ? "animate-blink" : "opacity-100"
+                }`}
+              />
+            </p>
+          </motion.div>
 
-          <h1
-            className="mt-4 flex flex-col items-start gap-1 uppercase leading-[1.05] tracking-tight text-neutral-950 lg:gap-2"
+          <motion.h1
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+            className="mt-6 flex flex-col items-start gap-0.5 uppercase leading-[0.98] tracking-tight text-neutral-950 lg:gap-1"
             style={{ fontFamily: "var(--font-display)" }}
           >
             <span
@@ -203,41 +219,55 @@ export default function Hero() {
             </span>
             <span
               ref={lineBRef}
-              className="block whitespace-nowrap text-[clamp(2.25rem,5vw,4.75rem)]"
+              className="block whitespace-nowrap bg-gradient-to-r from-neutral-950 via-neutral-800 to-neutral-500 bg-clip-text text-[clamp(2.25rem,5vw,4.75rem)] text-transparent"
               style={{ letterSpacing: `${lineBTracking}px` }}
             >
               Experiences
             </span>
-            <span className="block text-[clamp(1.65rem,3.5vw,3rem)] text-neutral-300">
+            <span className="mt-1 block text-[clamp(1.65rem,3.5vw,3rem)] italic text-neutral-300">
               That make an impact
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="mt-6 max-w-md text-base leading-7 text-neutral-600">
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+            className="relative mt-7 max-w-md border-l-2 border-neutral-200 pl-4 text-base leading-7 text-neutral-600"
+          >
             Full-stack developer crafting clean, interactive and
             performance-driven web experiences.
-          </p>
+          </motion.p>
 
-          <div className="mt-8 flex items-center gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+            className="mt-9 flex items-center gap-7"
+          >
             <Link
               href="#projects"
-              className="group inline-flex items-center gap-2 rounded-md bg-black px-7 py-4 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_10px_30px_-12px_rgba(0,0,0,0.5)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-12px_rgba(0,0,0,0.55)]"
+              className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-neutral-950 px-7 py-4 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_10px_30px_-12px_rgba(0,0,0,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-14px_rgba(0,0,0,0.6)]"
             >
-              Explore My Work
+              <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+              <span className="relative">Explore My Work</span>
               <ArrowRight
                 size={14}
-                className="transition-transform duration-300 group-hover:translate-x-1"
+                className="relative transition-transform duration-300 group-hover:translate-x-1"
               />
             </Link>
 
             <Link
               href="#about"
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-neutral-900"
+              className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-neutral-900"
             >
-              About Me
+              <span className="relative">
+                About Me
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full" />
+              </span>
               <span className="h-1 w-1 rounded-full bg-neutral-900" />
             </Link>
-          </div>
+          </motion.div>
         </div>
 
         {/* RIGHT — globe + floating cards */}

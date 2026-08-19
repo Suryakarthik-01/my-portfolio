@@ -172,10 +172,18 @@ export default function TechStack() {
 
         {/* Decorative number */}
         <div
-          className="absolute right-8 top-24 hidden text-[150px] font-black text-[#f5f5f5] leading-none select-none pointer-events-none lg:block xl:text-[200px]"
+          className="absolute right-8 top-24 hidden select-none pointer-events-none lg:block"
           aria-hidden="true"
         >
-          03
+          <span
+            className="block text-[150px] font-black leading-none text-[#f5f5f5] xl:text-[200px]"
+            style={{
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 55%)",
+              maskImage: "linear-gradient(to right, transparent, black 55%)",
+            }}
+          >
+            03
+          </span>
         </div>
       </div>
     </section>
