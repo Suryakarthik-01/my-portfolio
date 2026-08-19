@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { scrollToSection } from "@/lib/smoothScroll";
 
 const navigation = [
   {
@@ -85,112 +86,74 @@ export default function Navbar() {
     href: string
   ) => {
     e.preventDefault();
-
-    const section = document.querySelector(href);
-
-    if (!section) return;
-
-    section.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    scrollToSection(href);
   };
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color,box-shadow] duration-300 ease-in-out ${
+      className={`fixed inset-x-0 top-0 z-50 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         hidden ? "-translate-y-full" : "translate-y-0"
-      } ${
-        isScrolled
-          ? "border-b border-neutral-200/70 bg-white/80 backdrop-blur-xl shadow-sm"
-          : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
+      <div
+        className={`transition-[background-color,border-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          isScrolled
+            ? "border-b border-neutral-200 bg-white/75 backdrop-blur-md"
+            : "border-b border-transparent bg-transparent"
+        }`}
+      >
+        <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-6 lg:px-10">
 
-        {/* Logo */}
+          {/* Logo */}
 
-        <Link
-          href="/"
-          className="group flex items-center"
-          aria-label="Homepage"
-        >
-          <span className="text-[34px] font-black tracking-[-0.06em]">
-            K
-          </span>
+          <Link
+            href="/"
+            className="flex items-center"
+            aria-label="Homepage"
+          >
+            <span className="text-[27px] font-semibold tracking-[-0.04em] text-neutral-950">
+              K
+            </span>
+            <span className="text-[27px] font-semibold tracking-[-0.04em] text-neutral-950">
+              .
+            </span>
+          </Link>
 
-          <span className="text-[34px] font-black transition-transform duration-300 group-hover:-translate-y-1">
-            .
-          </span>
-        </Link>
+          {/* Navigation */}
 
-        {/* Navigation */}
+          <nav className="hidden items-center gap-8 lg:flex">
+            {navigation.map((item) => {
+              const active = activeSection === item.href;
 
-        <nav className="hidden items-center gap-12 lg:flex">
-          {navigation.map((item) => {
-            const active = activeSection === item.href;
-            const letters = item.label.split("");
-
-            return (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) =>
-                  handleScrollToSection(e, item.href)
-                }
-                className="group/item relative font-[family-name:var(--font-space-grotesk)] text-[15px] font-medium tracking-wide text-neutral-700 transition-colors duration-300 hover:text-black"
-              >
-                <span className="sr-only">{item.label}</span>
-
-                <span
-                  aria-hidden="true"
-                  className="relative inline-flex [perspective:280px]"
-                >
-                  {letters.map((char, i) => (
-                    <span
-                      key={i}
-                      className="relative inline-block h-[1.1em] [transform-style:preserve-3d] flip-letter group-hover/item:[transform:rotateX(-180deg)]"
-                      style={{ transitionDelay: `${i * 35}ms` }}
-                    >
-                      <span className="flip-letter-face block">
-                        {char === " " ? " " : char}
-                      </span>
-
-                      <span className="flip-letter-face flip-letter-face-back absolute inset-0 block">
-                        {char === " " ? " " : char}
-                      </span>
-                    </span>
-                  ))}
-                </span>
-
-                <span
-                  className={`absolute -bottom-2 left-0 h-[1.5px] bg-black transition-all duration-300 ${
-                    active
-                      ? "w-full"
-                      : "w-0 group-hover/item:w-full"
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={(e) => handleScrollToSection(e, item.href)}
+                  className={`flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200 hover:bg-neutral-100 ${
+                    active ? "text-neutral-950" : "text-neutral-500 hover:text-neutral-950"
                   }`}
-                />
-              </a>
-            );
-          })}
-        </nav>
+                >
+                  {item.label}
+                  {active && (
+                    <span className="h-[3px] w-[3px] rounded-full bg-neutral-950" />
+                  )}
+                </a>
+              );
+            })}
+          </nav>
 
-        {/* CTA */}
+          {/* CTA */}
 
-        <a
-          href="#contact"
-          onClick={(e) =>
-            handleScrollToSection(e, "#contact")
-          }
-          className="group hidden items-center gap-2 rounded-full border border-black bg-black px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:text-black lg:inline-flex"
-        >
-          Let's Talk
-
-          <ArrowUpRight
-            size={16}
-            className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-          />
-        </a>
+          <a
+            href="#contact"
+            onClick={(e) => handleScrollToSection(e, "#contact")}
+            className="hidden items-center gap-1.5 rounded-full bg-neutral-950 py-3 pl-5 pr-4 text-[15px] font-medium tracking-[-0.01em] text-white transition-colors duration-200 hover:bg-neutral-800 lg:inline-flex"
+          >
+            Let&apos;s talk
+            <ArrowUpRight size={15} />
+          </a>
+        </div>
       </div>
     </header>
   );

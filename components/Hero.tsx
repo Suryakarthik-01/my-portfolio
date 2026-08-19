@@ -1,39 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { FaReact } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
 import HeroGlobe from "./HeroGlobe";
-
-function useTypewriter(text: string, speed = 45, startDelay = 300) {
-  const [displayed, setDisplayed] = useState("");
-
-  useEffect(() => {
-    let charIndex = 0;
-    let interval: ReturnType<typeof setInterval>;
-
-    const start = setTimeout(() => {
-      interval = setInterval(() => {
-        charIndex += 1;
-        setDisplayed(text.slice(0, charIndex));
-
-        if (charIndex >= text.length) {
-          clearInterval(interval);
-        }
-      }, speed);
-    }, startDelay);
-
-    return () => {
-      clearTimeout(start);
-      clearInterval(interval);
-    };
-  }, [text, speed, startDelay]);
-
-  return displayed;
-}
+import { scrollToSection } from "@/lib/smoothScroll";
 
 // Equalizes the visual width of two headline lines by nudging letter-spacing
 // on the shorter one, so short/long lines read as the same measure.
@@ -95,7 +69,9 @@ const featuredProjects: {
   { name: "PIXELAB", desc: "Design Studio Website", theme: "shapes" },
 ];
 
-const CONTAINER = "mx-auto max-w-[1800px] px-4 sm:px-6 lg:px-8";
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+const CONTAINER = "mx-auto max-w-[1440px] px-6 sm:px-8 lg:px-10";
 
 function ProjectCard({
   name,
@@ -111,13 +87,13 @@ function ProjectCard({
   return (
     <Link
       href="#projects"
-      className={`group relative flex aspect-[4/3] flex-col justify-between overflow-hidden border-l border-neutral-200 p-5 transition-colors sm:aspect-auto sm:h-full ${
+      className={`group relative flex aspect-[4/3] flex-col justify-between overflow-hidden border-l border-neutral-200 p-5 transition-colors duration-300 sm:aspect-auto sm:h-full ${
         isDark ? "bg-neutral-950" : "bg-neutral-100"
       }`}
     >
       {/* Decorative background per theme */}
       {theme === "dark" && (
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-neutral-700/40 via-neutral-950 to-black" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-neutral-700/40 via-neutral-950 to-black transition-opacity duration-300 group-hover:opacity-80" />
       )}
       {theme === "wave" && (
         <div
@@ -129,12 +105,12 @@ function ProjectCard({
         />
       )}
       {theme === "shapes" && (
-        <div className="pointer-events-none absolute right-3 top-3 h-16 w-16 rotate-12 border border-neutral-400/60" />
+        <div className="pointer-events-none absolute right-3 top-3 h-16 w-16 rotate-12 border border-neutral-400/60 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-45" />
       )}
 
       <div className="relative z-10">
         <p
-          className={`text-sm font-extrabold uppercase tracking-wide ${
+          className={`text-sm font-semibold uppercase tracking-[0.08em] ${
             isDark ? "text-white" : "text-neutral-900"
           }`}
         >
@@ -150,10 +126,10 @@ function ProjectCard({
       </div>
 
       <span
-        className={`relative z-10 ml-auto flex h-8 w-8 items-center justify-center rounded-full border transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
+        className={`relative z-10 ml-auto flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
           isDark
-            ? "border-white/20 text-white"
-            : "border-neutral-300 text-neutral-700"
+            ? "border-white/20 text-white group-hover:border-white/40"
+            : "border-neutral-300 text-neutral-700 group-hover:border-neutral-400"
         }`}
       >
         <ArrowUpRight size={14} />
@@ -163,156 +139,136 @@ function ProjectCard({
 }
 
 export default function Hero() {
-  const typedGreeting = useTypewriter("Hey, I'm Karthik", 45, 300);
-  const typingDone = typedGreeting.length === "Hey, I'm Karthik".length;
-
   const lineARef = useRef<HTMLSpanElement>(null);
   const lineBRef = useRef<HTMLSpanElement>(null);
   const lineBTracking = useEqualizeWidth(lineARef, lineBRef);
 
   return (
-    <section id="home" className="relative w-full bg-white pt-20">
+    <section id="home" className="relative w-full bg-white pt-28 lg:pt-32">
       {/* HEADLINE + GLOBE */}
-      <div className={`relative grid grid-cols-1 gap-y-10 py-6 lg:grid-cols-2 lg:gap-x-16 lg:py-8 ${CONTAINER}`}>
+      <div className={`relative grid grid-cols-1 gap-y-12 py-6 lg:grid-cols-2 lg:gap-x-16 lg:py-8 ${CONTAINER}`}>
         {/* LEFT — copy */}
-        <div className="relative flex flex-col justify-center pl-2 sm:pl-4 lg:pl-10 xl:pl-16">
-          {/* decorative sparkle rail */}
-          <div className="pointer-events-none absolute -left-6 top-1/4 hidden flex-col items-center xl:flex">
-            <span className="h-16 w-px bg-gradient-to-b from-transparent via-neutral-300 to-transparent" />
-            <Sparkles className="my-2 h-3.5 w-3.5 text-neutral-400" />
-            <span className="h-16 w-px bg-gradient-to-b from-neutral-300 via-transparent to-transparent" />
-          </div>
-
-          {/* greeting badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="inline-flex w-fit items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50/80 py-1.5 pl-2 pr-4 shadow-sm backdrop-blur-sm"
+        <div className="relative flex flex-col justify-center">
+          {/* eyebrow */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="text-[13px] font-semibold uppercase tracking-[0.18em] text-neutral-400"
           >
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-            </span>
-            <p className="flex items-center text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-700">
-              {typedGreeting}
-              <span
-                className={`ml-0.5 inline-block h-3 w-[2px] bg-neutral-700 ${
-                  typingDone ? "animate-blink" : "opacity-100"
-                }`}
-              />
-            </p>
-          </motion.div>
+            Hey, I&apos;m Karthik
+          </motion.p>
 
           <motion.h1
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="mt-6 flex flex-col items-start gap-0.5 uppercase leading-[0.98] tracking-tight text-neutral-950 lg:gap-1"
-            style={{ fontFamily: "var(--font-display)" }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.08 }}
+            className="mt-7 flex flex-col items-start gap-1.5 leading-[0.95] tracking-tight text-[#111111]"
           >
             <span
               ref={lineARef}
-              className="block whitespace-nowrap text-[clamp(2.25rem,5vw,4.75rem)]"
+              className="block whitespace-nowrap text-[clamp(2.25rem,5vw,4.25rem)] font-black"
             >
-              I Build Digital
+              I BUILD DIGITAL
             </span>
             <span
               ref={lineBRef}
-              className="block whitespace-nowrap bg-gradient-to-r from-neutral-950 via-neutral-800 to-neutral-500 bg-clip-text text-[clamp(2.25rem,5vw,4.75rem)] text-transparent"
+              className="text-outline block whitespace-nowrap text-[clamp(2.25rem,5vw,4.25rem)] font-black"
               style={{ letterSpacing: `${lineBTracking}px` }}
             >
-              Experiences
+              EXPERIENCES
             </span>
-            <span className="mt-1 block text-[clamp(1.65rem,3.5vw,3rem)] italic text-neutral-300">
-              That make an impact
+            <span className="mt-1.5 block text-[clamp(1.25rem,2.75vw,2rem)] font-black text-neutral-400">
+              THAT MAKE AN IMPACT
             </span>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-            className="relative mt-7 max-w-md border-l-2 border-neutral-200 pl-4 text-base leading-7 text-neutral-600"
+            transition={{ duration: 0.6, ease: EASE, delay: 0.16 }}
+            className="relative mt-8 max-w-md border-l-2 border-neutral-200 pl-4 text-[15px] leading-7 tracking-[-0.01em] text-neutral-600"
           >
             Full-stack developer crafting clean, interactive and
             performance-driven web experiences.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-            className="mt-9 flex items-center gap-7"
+            transition={{ duration: 0.6, ease: EASE, delay: 0.24 }}
+            className="mt-10 flex items-center gap-8"
           >
             <Link
               href="#projects"
-              className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-neutral-950 px-7 py-4 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_10px_30px_-12px_rgba(0,0,0,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-14px_rgba(0,0,0,0.6)]"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("#projects");
+              }}
+              className="group inline-flex items-center gap-2 rounded-full bg-neutral-950 px-6 py-3.5 text-[13.5px] font-medium tracking-[-0.01em] text-white shadow-[0_1px_1px_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.18)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_1px_1px_rgba(0,0,0,0.05),0_14px_24px_-6px_rgba(0,0,0,0.24)]"
             >
-              <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-              <span className="relative">Explore My Work</span>
+              Explore my work
               <ArrowRight
                 size={14}
-                className="relative transition-transform duration-300 group-hover:translate-x-1"
+                className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1"
               />
             </Link>
 
             <Link
               href="#about"
-              className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-neutral-900"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("#about");
+              }}
+              className="group inline-flex items-center gap-2 text-[13.5px] font-medium tracking-[-0.01em] text-neutral-700 transition-colors duration-200 hover:text-neutral-950"
             >
               <span className="relative">
-                About Me
-                <span className="absolute -bottom-1 left-0 h-px w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full" />
+                About me
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-neutral-950 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:w-full" />
               </span>
-              <span className="h-1 w-1 rounded-full bg-neutral-900" />
             </Link>
           </motion.div>
         </div>
 
-        {/* RIGHT — globe + floating cards */}
-        <div className="relative flex min-h-[480px] items-center justify-center lg:min-h-[560px]">
-          <div className="lg:-translate-x-8 lg:-translate-y-4 xl:-translate-x-12 xl:-translate-y-6">
-            <HeroGlobe />
-          </div>
-
-          {/* Interactive globe / tech stack card — pinned to the top edge of the globe */}
+        {/* RIGHT — globe + floating card */}
+        <div className="relative flex min-h-[440px] items-center justify-center lg:min-h-[520px]">
           <motion.div
-            initial={{ opacity: 0, y: -14, scale: 0.9, rotate: -8 }}
-            animate={{
-              opacity: 1,
-              y: [0, -8, 0],
-              scale: 1,
-              rotate: -3,
-            }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
+            className="lg:-translate-x-8 lg:-translate-y-4 xl:-translate-x-12 xl:-translate-y-6"
+          >
+            <HeroGlobe />
+          </motion.div>
+
+          {/* Tech stack card — pinned to the top edge of the globe */}
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.96 }}
+            animate={{ opacity: 1, y: [0, -5, 0], scale: 1 }}
             transition={{
-              opacity: { duration: 0.6, ease: "easeOut" },
-              scale: { duration: 0.6, ease: "easeOut" },
-              rotate: { duration: 0.6, ease: "easeOut" },
+              opacity: { duration: 0.6, ease: EASE, delay: 0.3 },
+              scale: { duration: 0.6, ease: EASE, delay: 0.3 },
               y: {
-                duration: 3.4,
+                duration: 5.5,
                 repeat: Infinity,
                 ease: "easeInOut",
-                delay: 0.7,
+                delay: 0.9,
               },
             }}
-            className="absolute -top-8 right-0 z-10 w-[210px] rounded-2xl border border-neutral-200 bg-white p-5 shadow-lg sm:right-2"
+            className="absolute -top-6 right-0 z-10 w-[208px] rounded-2xl border border-neutral-200 bg-white/95 p-5 shadow-[0_1px_1px_rgba(0,0,0,0.03),0_2px_4px_rgba(0,0,0,0.03),0_16px_32px_-8px_rgba(0,0,0,0.1)] backdrop-blur-sm sm:right-2"
           >
-            {/* pin — anchors the card to the globe like a pinned note */}
-            <span className="absolute -top-2 left-6 h-3.5 w-3.5 rounded-full border-2 border-white bg-neutral-900 shadow" />
-
-            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
-              Interactive Globe
-              <span className="h-1 w-1 rounded-full bg-neutral-900" />
+            <div className="flex items-center gap-2 font-[family-name:var(--font-geist-mono)] text-[10px] uppercase tracking-[0.12em] text-neutral-500">
+              Interactive globe
+              <span className="h-1 w-1 rounded-full bg-neutral-950" />
             </div>
 
-            <p className="mt-3 text-sm leading-5 text-neutral-700">
+            <p className="mt-3 text-[13.5px] leading-5 tracking-[-0.01em] text-neutral-700">
               Drag to explore the connections I build.
             </p>
 
             <div className="mt-4 border-t border-neutral-100 pt-4">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
-                Tech Stack
+              <p className="font-[family-name:var(--font-geist-mono)] text-[10px] uppercase tracking-[0.12em] text-neutral-500">
+                Tech stack
               </p>
 
               <div className="mt-3 flex items-center gap-2">
@@ -320,7 +276,7 @@ export default function Hero() {
                   <span
                     key={tech.label}
                     title={tech.label}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 text-neutral-800"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 text-neutral-800 transition-colors duration-200 hover:border-neutral-300 hover:bg-white"
                   >
                     {tech.icon}
                   </span>
@@ -335,17 +291,17 @@ export default function Hero() {
       <div className="relative border-t border-neutral-200">
         <div className={`grid grid-cols-1 sm:grid-cols-5 ${CONTAINER}`}>
           <div className="flex flex-col justify-between gap-6 border-b border-neutral-200 py-8 pr-6 sm:border-b-0 sm:border-r sm:py-10">
-            <p className="text-sm font-bold uppercase tracking-wide text-neutral-900">
+            <p className="text-[13.5px] font-semibold uppercase tracking-[0.08em] text-neutral-900">
               Featured
               <br />
               Projects
             </p>
 
             <div className="flex items-center gap-4">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-black text-white">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-950 text-white">
                 <ArrowUpRight size={16} />
               </span>
-              <span className="text-xs text-neutral-500">
+              <span className="text-xs tracking-[-0.01em] text-neutral-500">
                 Hover to preview
               </span>
             </div>

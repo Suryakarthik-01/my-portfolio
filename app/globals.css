@@ -25,7 +25,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Native smooth-scroll is superseded by Lenis (components/SmoothScroll.tsx),
+     which drives a single inertia-based scroll engine site-wide. Leaving this
+     on would fight Lenis's own easing on anchor-link jumps. */
   /* The design was built to read comfortably at ~80% browser zoom.
      Scaling the whole document down (rather than font-size, which only
      touches rem-relative values and misses the many arbitrary px sizes
@@ -38,6 +40,20 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: hidden;
+  /* Forces grayscale antialiasing everywhere so text stays crisp when a
+     GPU compositing layer is promoted for a transform/opacity animation
+     (framer-motion entrance animations, etc.) — without this, LCD
+     subpixel AA can leave a brief RGB fringe on text inside an animated
+     element. */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* The custom cursor only takes over once Cursor.tsx confirms a fine
+   (mouse-class) pointer and no reduced-motion preference — this class is
+   toggled at runtime so touch/coarse-pointer visitors keep the native
+   cursor instead of losing it if JS is slow or the check fails. */
+html.has-fine-cursor body {
   cursor: none;
 }
 
@@ -46,14 +62,14 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
   background: #ffffff;
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   mix-blend-mode: difference;
 }
 
@@ -61,25 +77,26 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(17, 17, 17, 0.3);
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(17, 17, 17, 0.22);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: transform 0.12s ease, width 0.2s ease, height 0.2s ease;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cursor.cursor-hover {
-  width: 6px;
-  height: 6px;
+  transform: translate(-50%, -50%) scale(0);
 }
 
 .cursor-follower.cursor-hover {
-  width: 52px;
-  height: 52px;
-  border-color: rgba(17, 17, 17, 0.15);
+  transform: translate(-50%, -50%) scale(1.6);
+  border-color: rgba(17, 17, 17, 0.08);
+  background-color: rgba(17, 17, 17, 0.04);
 }
 
 /* Text outline effect */
@@ -268,20 +285,6 @@ body {
 
 .reveal.visible {
   animation: fadeUp 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-/* Nav item flip-up letters */
-.flip-letter {
-  transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.6, 0.04, 0.4, 1);
-}
-
-.flip-letter-face {
-  backface-visibility: hidden;
-}
-
-.flip-letter-face-back {
-  transform: rotateX(180deg);
 }
 
 /* Stagger delays */

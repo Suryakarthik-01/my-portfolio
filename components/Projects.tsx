@@ -106,7 +106,7 @@ export default function Projects() {
       <div className="relative max-w-[1400px] mx-auto px-8 md:px-16 lg:pr-64 xl:pr-80">
         {/* Section header */}
         <div className="flex items-center gap-4 mb-20">
-          <span className="section-label">04 — Projects</span>
+          <span className="section-label">03 — Projects</span>
           <div className="flex-1 h-px bg-[#eaeaea]" />
           <span className="code-comment">{"projects.map(p => <CaseStudy />)"}</span>
         </div>
@@ -153,7 +153,7 @@ export default function Projects() {
               maskImage: "linear-gradient(to right, transparent, black 55%)",
             }}
           >
-            04
+            03
           </span>
         </div>
       </div>

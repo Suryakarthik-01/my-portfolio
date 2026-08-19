@@ -12,7 +12,19 @@ import {
   SiTypescript,
   SiTailwindcss,
   SiGit,
-  SiDocker,
+  SiExpo,
+  SiRedux,
+  SiAstro,
+  SiHtml5,
+  SiCss,
+  SiFirebase,
+  SiPostman,
+  SiFigma,
+  SiGithub,
+  SiPython,
+  SiNotion,
+  SiStripe,
+  SiSocketdotio,
 } from "react-icons/si";
 
 interface Tech {
@@ -20,6 +32,25 @@ interface Tech {
   icon: React.ElementType;
   category: string;
   description: string;
+}
+
+// No Simple Icons glyph exists for NativeWind, so this mirrors the icon
+// contract (size/className props) with a short text mark instead.
+function NativeWindIcon({
+  size = 22,
+  className,
+}: {
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`inline-flex items-center justify-center font-black leading-none ${className ?? ""}`}
+      style={{ fontSize: size * 0.5 }}
+    >
+      NW
+    </span>
+  );
 }
 
 const techStack: Tech[] = [
@@ -72,7 +103,7 @@ const techStack: Tech[] = [
     description: "Type-safe JavaScript",
   },
   {
-    name: "Tailwind",
+    name: "Tailwind CSS",
     icon: SiTailwindcss,
     category: "Styling",
     description: "Utility-first CSS framework",
@@ -84,14 +115,92 @@ const techStack: Tech[] = [
     description: "Version control system",
   },
   {
-    name: "Docker",
-    icon: SiDocker,
-    category: "DevOps",
-    description: "Containerized deployments",
+    name: "GitHub",
+    icon: SiGithub,
+    category: "Tools",
+    description: "Code hosting & collaboration",
+  },
+  {
+    name: "Postman",
+    icon: SiPostman,
+    category: "Tools",
+    description: "API testing & debugging",
+  },
+  {
+    name: "Figma",
+    icon: SiFigma,
+    category: "Design",
+    description: "UI design & prototyping",
+  },
+  {
+    name: "Notion",
+    icon: SiNotion,
+    category: "Tools",
+    description: "Docs & project planning",
+  },
+  {
+    name: "Expo",
+    icon: SiExpo,
+    category: "Mobile",
+    description: "Managed React Native workflow",
+  },
+  {
+    name: "Redux",
+    icon: SiRedux,
+    category: "Frontend",
+    description: "Predictable state management",
+  },
+  {
+    name: "Astro",
+    icon: SiAstro,
+    category: "Framework",
+    description: "Content-focused static sites",
+  },
+  {
+    name: "HTML5",
+    icon: SiHtml5,
+    category: "Language",
+    description: "Semantic markup foundation",
+  },
+  {
+    name: "CSS3",
+    icon: SiCss,
+    category: "Styling",
+    description: "Modern styling & layout",
+  },
+  {
+    name: "NativeWind CSS",
+    icon: NativeWindIcon,
+    category: "Styling",
+    description: "Tailwind for React Native",
+  },
+  {
+    name: "Firebase",
+    icon: SiFirebase,
+    category: "Backend",
+    description: "Realtime backend & auth",
+  },
+  {
+    name: "Python",
+    icon: SiPython,
+    category: "Language",
+    description: "Scripting & automation",
+  },
+  {
+    name: "Stripe",
+    icon: SiStripe,
+    category: "Backend",
+    description: "Payments integration",
+  },
+  {
+    name: "Socket.io",
+    icon: SiSocketdotio,
+    category: "Backend",
+    description: "Real-time WebSocket events",
   },
 ];
 
-const categories = ["All", "Frontend", "Backend", "Mobile", "Database", "Tools", "DevOps", "Language", "Styling", "Framework"];
+const categories = ["All", "Frontend", "Backend", "Mobile", "Database", "Tools", "DevOps", "Language", "Styling", "Framework", "Design"];
 
 export default function TechStack() {
   const ref = useRef<HTMLElement>(null);
@@ -113,7 +222,7 @@ export default function TechStack() {
       <div className="relative max-w-[1400px] mx-auto px-8 md:px-16 lg:pr-64 xl:pr-80">
         {/* Section header */}
         <div className="flex items-center gap-4 mb-20">
-          <span className="section-label">03 — Tech Stack</span>
+          <span className="section-label">04 — Tech Stack</span>
           <div className="flex-1 h-px bg-[#eaeaea]" />
           <span className="code-comment">{"import { skills } from './engineer'"}</span>
         </div>
@@ -182,7 +291,7 @@ export default function TechStack() {
               maskImage: "linear-gradient(to right, transparent, black 55%)",
             }}
           >
-            03
+            04
           </span>
         </div>
       </div>
