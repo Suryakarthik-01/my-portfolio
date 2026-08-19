@@ -17,9 +17,17 @@ export default function Cursor() {
     let followerY = 0;
     let rafId: number;
 
+    // `html` is rendered with a CSS `zoom` factor (see globals.css), which
+    // scales `position: fixed` pixel values on render. `MouseEvent.clientX/Y`
+    // are reported in real, unzoomed viewport pixels, so raw coordinates
+    // must be divided by the zoom factor before being used as fixed offsets,
+    // or the cursor drifts away from the real pointer as it moves.
+    const zoom =
+      parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+
     const onMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+      mouseX = e.clientX / zoom;
+      mouseY = e.clientY / zoom;
       cursor.style.left = `${mouseX}px`;
       cursor.style.top = `${mouseY}px`;
     };

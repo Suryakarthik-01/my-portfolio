@@ -270,6 +270,20 @@ body {
   animation: fadeUp 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
+/* Nav item flip-up letters */
+.flip-letter {
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.6, 0.04, 0.4, 1);
+}
+
+.flip-letter-face {
+  backface-visibility: hidden;
+}
+
+.flip-letter-face-back {
+  transform: rotateX(180deg);
+}
+
 /* Stagger delays */
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }

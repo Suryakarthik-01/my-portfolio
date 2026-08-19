@@ -129,6 +129,7 @@ export default function Navbar() {
         <nav className="hidden items-center gap-12 lg:flex">
           {navigation.map((item) => {
             const active = activeSection === item.href;
+            const letters = item.label.split("");
 
             return (
               <a
@@ -137,15 +138,36 @@ export default function Navbar() {
                 onClick={(e) =>
                   handleScrollToSection(e, item.href)
                 }
-                className="group relative text-[15px] font-medium tracking-wide text-neutral-700 transition-colors duration-300 hover:text-black"
+                className="group/item relative font-[family-name:var(--font-space-grotesk)] text-[15px] font-medium tracking-wide text-neutral-700 transition-colors duration-300 hover:text-black"
               >
-                {item.label}
+                <span className="sr-only">{item.label}</span>
+
+                <span
+                  aria-hidden="true"
+                  className="relative inline-flex [perspective:280px]"
+                >
+                  {letters.map((char, i) => (
+                    <span
+                      key={i}
+                      className="relative inline-block h-[1.1em] [transform-style:preserve-3d] flip-letter group-hover/item:[transform:rotateX(-180deg)]"
+                      style={{ transitionDelay: `${i * 35}ms` }}
+                    >
+                      <span className="flip-letter-face block">
+                        {char === " " ? " " : char}
+                      </span>
+
+                      <span className="flip-letter-face flip-letter-face-back absolute inset-0 block">
+                        {char === " " ? " " : char}
+                      </span>
+                    </span>
+                  ))}
+                </span>
 
                 <span
                   className={`absolute -bottom-2 left-0 h-[1.5px] bg-black transition-all duration-300 ${
                     active
                       ? "w-full"
-                      : "w-0 group-hover:w-full"
+                      : "w-0 group-hover/item:w-full"
                   }`}
                 />
               </a>
