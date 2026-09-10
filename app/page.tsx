@@ -7,7 +7,6 @@ import TechStack from "@/components/TechStack";
 import Projects from "@/components/Projects";
 import CodePhilosophy from "@/components/CodePhilosophy";
 import Process from "@/components/Process";
-import Achievements from "@/components/Achievements";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -24,7 +23,6 @@ export default function Home() {
         <TechStack />
         <CodePhilosophy />
         <Process />
-        <Achievements />
         <Contact />
       </main>
       <Footer />

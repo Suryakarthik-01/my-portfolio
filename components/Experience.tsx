@@ -5,31 +5,31 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
 const experiences = [
   {
-    period: "2023 — Present",
-    role: "Full Stack Developer",
-    company: "Freelance & Open Source",
+    period: "Mar 2026 — Present",
+    role: "Software Development Engineer",
+    company: "Salam Kisan · Pune, Maharashtra",
     type: "Full-time",
     description:
-      "Designed and built production-grade web and mobile applications for clients across industries. Led architecture decisions, implemented CI/CD pipelines, and delivered end-to-end solutions independently.",
-    stack: ["Next.js", "React Native", "Node.js", "MongoDB", "TypeScript"],
+      "Building and maintaining a production React Native application — from responsive, scalable UI components to end-to-end REST API integrations. Focused on performance, debugging, and application reliability while collaborating with the team to ship production-ready features.",
+    stack: ["React Native", "TypeScript", "REST APIs"],
   },
   {
-    period: "2022 — 2023",
-    role: "Frontend Engineer",
-    company: "Startup Projects",
-    type: "Contract",
+    period: "Feb 2025 — Mar 2026",
+    role: "Junior Full Stack Developer",
+    company: "PRYM Aerospace Pvt. Ltd. · Jalna, Maharashtra",
+    type: "Full-time",
     description:
-      "Spearheaded the frontend development of several SaaS products. Focused on performance optimization, accessibility, and creating reusable design systems that accelerated team velocity.",
-    stack: ["React", "TypeScript", "Tailwind CSS", "Zustand"],
+      "Developed and maintained modern web applications with React.js and Next.js, building reusable, responsive UI components with a focus on performance and user experience. Owned features end-to-end — from REST API integration to debugging, optimization, and deployment — as part of a collaborative product team.",
+    stack: ["React.js", "Next.js", "REST APIs", "JavaScript"],
   },
   {
-    period: "2021 — 2022",
-    role: "Mobile Developer",
-    company: "Personal Projects",
-    type: "Independent",
+    period: "Apr 2024 — Jan 2025",
+    role: "Student Intern",
+    company: "Vector India · Hyderabad",
+    type: "Internship",
     description:
-      "Built and shipped multiple React Native applications to the App Store and Play Store. Implemented complex state management, native modules, and push notification systems.",
-    stack: ["React Native CLI", "Expo", "Redux", "Firebase"],
+      "Gained hands-on experience across the MERN stack and Python, working on application development fundamentals, backend integration, and problem-solving. Built a practical foundation in full-stack workflows and software engineering practices.",
+    stack: ["MongoDB", "Express.js", "React", "Node.js", "Python"],
   },
 ];
 
