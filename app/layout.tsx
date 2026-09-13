@@ -34,6 +34,11 @@ export const metadata: Metadata = {
     "I build scalable web applications and cross-platform mobile apps that solve real-world problems.",
   keywords: ["Full Stack Developer", "Mobile App Developer", "React", "Next.js", "React Native"],
   authors: [{ name: "Karthik Kumar" }],
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     title: "Karthik Kumar — Full Stack & Mobile Developer",
     description:

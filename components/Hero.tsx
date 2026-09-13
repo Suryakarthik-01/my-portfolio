@@ -148,7 +148,7 @@ export default function Hero() {
       {/* HEADLINE + GLOBE */}
       <div className={`relative grid grid-cols-1 gap-y-12 py-6 lg:grid-cols-2 lg:gap-x-16 lg:py-8 ${CONTAINER}`}>
         {/* LEFT — copy */}
-        <div className="relative flex flex-col justify-center">
+        <div className="relative flex flex-col justify-center lg:-translate-y-4 xl:-translate-y-6">
           {/* eyebrow */}
           <motion.p
             initial={{ opacity: 0 }}
@@ -236,7 +236,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
-            className="lg:-translate-x-8 lg:-translate-y-4 xl:-translate-x-12 xl:-translate-y-6"
+            className="lg:-translate-x-14 lg:-translate-y-4 xl:-translate-x-20 xl:-translate-y-6"
           >
             <HeroGlobe />
           </motion.div>

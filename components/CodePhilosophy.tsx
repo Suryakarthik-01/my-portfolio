@@ -54,11 +54,11 @@ export default function CodePhilosophy() {
       <div className="max-w-[1400px] mx-auto px-8 md:px-16 relative z-10">
         {/* Section header */}
         <div className="flex items-center gap-4 mb-20">
-          <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-[#444444]">
+          <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-neutral-500">
             05 — Philosophy
           </span>
-          <div className="flex-1 h-px bg-[#222222]" />
-          <span className="font-mono text-[11px] text-[#333333]">
+          <div className="flex-1 h-px bg-neutral-800" />
+          <span className="font-mono text-[11px] text-neutral-600">
             {"/* how I think about code */"}
           </span>
         </div>
@@ -75,7 +75,7 @@ export default function CodePhilosophy() {
             <br />
             <span
               style={{
-                WebkitTextStroke: "1.5px #444444",
+                WebkitTextStroke: "1.5px rgba(255,255,255,0.4)",
                 color: "transparent",
               }}
             >
@@ -96,10 +96,10 @@ export default function CodePhilosophy() {
                 ease: "easeOut",
                 delay: 0.1 + i * 0.08,
               }}
-              className="bg-[#111111] p-8 flex flex-col gap-5 group hover:bg-[#161616] transition-colors duration-200"
+              className="bg-[#111111] p-8 flex flex-col gap-5 group hover:bg-white/[0.03] transition-colors duration-200"
             >
               <span
-                className="font-mono text-3xl font-bold text-[#333333] group-hover:text-[#555555] transition-colors duration-200"
+                className="font-mono text-3xl font-bold text-neutral-600 group-hover:text-neutral-400 transition-colors duration-200"
                 aria-hidden="true"
               >
                 {p.symbol}
@@ -108,7 +108,7 @@ export default function CodePhilosophy() {
                 <h3 className="text-white font-semibold text-lg tracking-tight mb-2">
                   {p.title}
                 </h3>
-                <p className="text-[#555555] text-sm leading-relaxed">
+                <p className="text-neutral-400 text-sm leading-relaxed">
                   {p.description}
                 </p>
               </div>
@@ -121,13 +121,13 @@ export default function CodePhilosophy() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-20 border-l-2 border-[#333333] pl-8"
+          className="mt-20 border-l-2 border-neutral-700 pl-8"
         >
-          <blockquote className="text-[#444444] text-lg font-mono leading-relaxed max-w-2xl">
+          <blockquote className="text-neutral-400 text-lg font-mono leading-relaxed max-w-2xl">
             &ldquo;Any fool can write code that a computer can understand. Good programmers write
             code that humans can understand.&rdquo;
           </blockquote>
-          <cite className="block mt-3 font-mono text-xs text-[#333333] not-italic tracking-widest uppercase">
+          <cite className="block mt-3 font-mono text-xs text-neutral-500 not-italic tracking-widest uppercase">
             — Martin Fowler
           </cite>
         </motion.div>
